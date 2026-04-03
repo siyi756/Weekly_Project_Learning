@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 银行系统项目 — 学生任务书
 
 ## 项目说明
@@ -104,3 +105,9 @@ double sumBalancesOver1000(Long userId)
 ## 协作建议
 
 三人需要约定好接口（方法签名）。学生 B 和 C 依赖学生 A 的 Entity，建议 A 先把 Entity 写好，让 B 和 C 可以同步开始工作。
+=======
+oding :(Springboot application) [WHITE BOARD CODING, NO IDE or VS Code] 
+You are creating a bank system. Create an API where you want to be able to withdraw money from user account. Upon clarification, each user has one account. Write Entity, Repository, Service, Controller. 
+Later, assuming each user may have multiple accounts, use Java Streams to filter a user's accounts for those with a balance exceeding 1,000 and collect them into a list.
+Use Java streams to sum the balances of a user's accounts that exceed 1,000
+>>>>>>> 961d66acfcfb42126ca4e79b0c6c778cb08f780c
