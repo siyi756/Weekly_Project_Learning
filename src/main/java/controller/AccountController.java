@@ -17,10 +17,10 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping("/accounts/{accountId}/withdraw")
-    public ResponseEntity<List<AccountResponse>> withdraw(@PathVariable Long accountId, @RequestBody WithdrawRequest request) {
-
-        return ResponseEntity.ok();
+    @PostMapping("/accounts/withdraw")
+    public ResponseEntity<List<AccountResponse>> withdraw(@RequestBody WithdrawRequest request) {
+        accountService.withdraw(request.getAccountId(), request.getAmount());
+        return ResponseEntity.ok(toResponse());
     }
 
     @GetMapping("/users/{userId}/accounts/rich")
