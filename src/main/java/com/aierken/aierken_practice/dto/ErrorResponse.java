@@ -1,13 +1,11 @@
-package dto;
+package com.aierken.aierken_practice.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ErrorResponse {
-    private String message;
     public ErrorResponse(String message) {
         this.message = message;
     }
+    private String message;
 }

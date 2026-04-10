@@ -30,5 +30,5 @@ public class Account {
     private String accountNumber;
     private String accountType;
     private double balance;
-    private boolean active;
+    private boolean isActive;
 }
