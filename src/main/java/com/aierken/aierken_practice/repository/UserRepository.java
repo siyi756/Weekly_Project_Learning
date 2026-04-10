@@ -1,37 +1,20 @@
 package com.aierken.aierken_practice.repository;
 
-
 import com.aierken.aierken_practice.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.Map;
+import java.util.Optional;
 
-@Repository
-public class UserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
 
+    @Query("select u from User u join u.accounts a where a.accountNumber = :accountNumber")
+    Optional<User> findByAccountNumber(@Param("accountNumber") String accountNumber);
 
-    private final Map<Long, User> userStore;
+    User findByName(String name);
 
+    User findByEmail(String email);
 
-    @Autowired
-    public UserRepository(Map<Long, User> userStore) {
-        this.userStore = userStore;
-    }
-
-    public User findById(Long id) {
-        return userStore.get(id);
-    }
-
-    public void save(User user) {
-        userStore.put(user.getId(), user);
-    }
-
-    public User findByAccountNumber(String accountNumber) {
-        return userStore.values().stream()
-                .filter(user -> user.getAccounts().stream()
-                        .anyMatch(account -> account.getAccountNumber().equals(accountNumber)))
-                .findFirst()
-                .orElse(null);
-    }
+    void deleteById(Long id);
 }
