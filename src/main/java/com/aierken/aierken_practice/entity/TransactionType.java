@@ -1,4 +1,7 @@
 package com.aierken.aierken_practice.entity;
 
-public class TransactionType {
+public enum TransactionType {
+    DEPOSIT,
+    WITHDRAW,
+    TRANSFER
 }

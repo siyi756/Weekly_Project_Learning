@@ -4,8 +4,12 @@ import com.aierken.aierken_practice.Exception.InsufficientBalanceException;
 import com.aierken.aierken_practice.Exception.AccountNotFoundException;
 import com.aierken.aierken_practice.Exception.UnauthorizedAccessException;
 import com.aierken.aierken_practice.Service.AccountService;
-import com.aierken.aierken_practice.dto.*;
+import com.aierken.aierken_practice.dto.AccountResponse;
+import com.aierken.aierken_practice.dto.ErrorResponse;
+import com.aierken.aierken_practice.dto.SumResponse;
+import com.aierken.aierken_practice.dto.WithdrawRequest;
 import com.aierken.aierken_practice.entity.Account;
+import com.aierken.aierken_practice.entity.Transaction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +31,13 @@ public class AccountController {
         return ResponseEntity.ok(remainingBalance);
     }
 
-    @GetMapping("/users/{userId}/accounts")
-    public ResponseEntity<List<AccountResponse>> getAllAccounts(@PathVariable Long userId) {
-        List<AccountResponse> responses = accountService.getAccountsByUserId(userId).stream()
-                .map(this::toResponse)
-                .toList();
-        return ResponseEntity.ok(responses);
+    @PostMapping("/accounts/deposit")
+    public ResponseEntity<Double> deposit(@RequestBody WithdrawRequest request) {
+        double remainingBalance = accountService.deposit(request.getUserId(), request.getAccountId(), request.getAmount());
+        return ResponseEntity.ok(remainingBalance);
     }
+
+
 
     @GetMapping("/users/{userId}/accounts/rich")
     public ResponseEntity<List<AccountResponse>> rich(@PathVariable Long userId) throws Exception {
@@ -46,16 +50,9 @@ public class AccountController {
         return ResponseEntity.ok(new SumResponse(accountService.sumBalancesOver1000(userId)));
     }
 
-    @PostMapping("/accounts/{accountId}/deposit")
-    public ResponseEntity<Double> deposit(@PathVariable Long accountId, @RequestBody DepositRequest request){
-        double newBalance = accountService.deposit(accountId, request.getAmount());
-        return ResponseEntity.ok(newBalance);
-    }
-
-    @PostMapping("/accounts/transfer")
-    public ResponseEntity<String> transfer(@RequestBody TransferRequest request){
-        accountService.transfer(request.getFromId(), request.getToId(), request.getAmount());
-        return ResponseEntity.ok("Transfer successful!");
+    @GetMapping("/accounts/{accountId}/transactions")
+    public ResponseEntity<List<Transaction>> getTransactions(@PathVariable String accountNumber) throws Exception {
+        return ResponseEntity.ok(accountService.getTransactionsByAccountNumber(accountNumber));
     }
 
     @ExceptionHandler(AccountNotFoundException.class)
